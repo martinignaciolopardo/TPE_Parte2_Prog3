@@ -23,7 +23,7 @@ public class Bow<T> {
 	}
 
 	public int setEtiqueta(int etiqueta){
-		this.etiqueta = etiqueta;
+		return this.etiqueta = etiqueta;
 	}
 
 	public void sumEtiqueta(){
@@ -32,9 +32,9 @@ public class Bow<T> {
 	
 	@Override
 	public boolean equals(Object obj) {
-		Arco a = (Arco) obj; 
-		if (a.getVerticeOrigen() == this.getVerticeOrigen() && 
-				a.getVerticeDestino() == this.getVerticeDestino()) {
+		Bow a = (Bow) obj;
+		if (a.getVerticeOrigen().getGenero() == this.getVerticeOrigen().getGenero() &&
+				a.getVerticeDestino().getGenero() == this.getVerticeDestino().getGenero()) {
 			return true;
 		}return false;
 	}

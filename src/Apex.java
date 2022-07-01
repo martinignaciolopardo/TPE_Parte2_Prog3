@@ -1,18 +1,19 @@
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Apex<T> {
 
-	private int valor;
-	private ArrayList<Arco> arcos;
+	private String genero;
+	private ArrayList<Bow> arcos;
 	private String color;
 	private int tiempoInicial = 0;
 	private int tiempoFinal = 0;
 	
-	public Apex(int valor) {
-		this.valor = valor;
+	public Apex(String genero) {
+		this.genero = genero;
 	}
 
-	public ArrayList<> getAdyacentes(){
+	public ArrayList<Apex> getAdyacentes(){
 		ArrayList adyacentes = new ArrayList<>();
 		for (int i = 0; i < arcos.size(); i++) {
 			adyacentes.add(arcos.get(i).getVerticeDestino());
@@ -20,48 +21,61 @@ public class Apex<T> {
 		return adyacentes;
 	}
 
-	public int getValor() {
-		return valor;
+	public String getGenero() {
+		return genero;
 	}
 	
-	public boolean esAdyacente(int v) {
+	public boolean esAdyacente(String v) {
 		for (int i = 0; i < arcos.size(); i++) {
-			if (arcos.get(i).getVerticeDestino() == v ) {
+			if (arcos.get(i).getVerticeDestino().getGenero() == v ) {
 				return true;
 			}
 		}return false;
 	}
 	
-	public void borrarArco(int vertice) {
+	public void borrarArco(String genero) {
 		for (int i = 0; i < arcos.size(); i++) {
-			if (arcos.get(i).getVerticeDestino() == vertice ) {
+			if (arcos.get(i).getVerticeDestino().getGenero() == genero ) {
 				arcos.remove(i);
 			}
 		}
 	}
 
-	public ArrayList<Bow> getBiggestsBows(int amount){
-		//arcos.ordenarDescendente
-		ArrayList nueva = new ArrayList<Bow>;
-		for (int i; i < amount; i++ ) {
-			nueva.add(arcos[i])
-		}return nueva;
+	public void borrarArco(){
+		this.arcos.remove(0);
 	}
-	
-	public void agregarArco(Arco a) {
+
+	public boolean sinArco(){
+		return this.arcos.isEmpty();
+	}
+
+	// Agrega ordenado
+	public void agregarArco(Bow a) {
 		if (!arcos.contains(a)) {
-			arcos.add(a);
+			for (int i = 0; i < arcos.size(); i++) {
+				if (a.getEtiqueta() > arcos.get(i).getEtiqueta()) {
+					arcos.add(i, a);
+					return;
+				}
+			}
+			if (!arcos.contains(a)) {
+				arcos.add(arcos.size(), a);
+			}
 		}
 	}
+
+	public Bow getMayorArco(){
+		return arcos.get(0);
+	}
 	
-	public boolean tieneArco(int vertice) {
+	public boolean tieneArco(String vertice) {
 		return arcos.contains(vertice);
 	}
 	
-	public Bow<T> getArco(int vertice){
-		if (tieneArco(this.getValor())) {
+	public Bow<T> getArco(String vertice){
+		if (tieneArco(this.getGenero())) {
 			for (Bow arco : arcos) {
-				if (arco.getVerticeDestino() == vertice) {
+				if (arco.getVerticeDestino().getGenero() == vertice) {
 				return arco;
 				}
 			}
@@ -75,8 +89,8 @@ public class Apex<T> {
 
 	@Override
 	public boolean equals(Object obj) {
-		Vertice v = (Vertice) obj; 
-		if (v.getValor() == this.getValor()) {
+		Apex v = (Apex) obj;
+		if (v.getGenero() == this.getGenero()) {
 			return true;
 		}return false;
 	}
@@ -104,6 +118,9 @@ public class Apex<T> {
 	public void setTiempoFinal(int tiempoFinal) {
 		this.tiempoFinal = tiempoFinal;
 	}
-	
-	
+
+
+	public Iterator<Bow> getArcos() {
+		return arcos.iterator();
+	}
 }
